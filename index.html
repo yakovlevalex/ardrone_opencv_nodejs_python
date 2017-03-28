@@ -1,0 +1,89 @@
+
+<!doctype html>
+<html>
+  <head>
+    <title>Socket.IO chat</title>
+    <style>
+      * { margin: 0; padding: 0; box-sizing: border-box; }
+      body { font: 13px Helvetica, Arial; }
+      form { background: #000; padding: 3px; position: fixed; bottom: 0; width: 100%; }
+      form input { border: 0; padding: 10px; width: 90%; margin-right: .5%; }
+      form button { width: 9%; background: rgb(130, 224, 255); border: none; padding: 10px; }
+      #messages { list-style-type: none; margin: 0; padding: 0; }
+      #messages li { padding: 5px 10px; }
+      #messages li:nth-child(odd) { background: #eee; }
+
+      .wrp {
+        width: 50%;
+        padding: 8px;
+        float: left;
+      }
+      .wrp button {
+        background-color: transparent;
+        border: 1px solid black;
+        border-radius: 4px;
+        font-size: 16px;
+        padding: 4px;
+        float: left;
+        margin-bottom: 8px;
+      }
+      .wrp.wrapper_1 button,
+      .wrp.wrapper_3 button {
+        width: 100%;
+        display: block;
+      }
+
+      .wrp.wrapper_2 {
+        width: 100%;
+      }
+
+      .wrp.wrapper_2 button {
+        width: 100%;
+      }
+
+      #left,
+      #right {
+        width: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="wrp wrapper_1">
+      <button id="takeoff">takeoff</button>
+      <button id="land">land</button>
+    </div>
+    <div class="wrp wrapper_3">
+      <button id="clockwise_left">cw left <- </button>
+      <button id="clockwise_right">cw right -> </button>
+    </div>
+    <div class="wrp wrapper_2">
+      <button id="up">up</button>
+      <button id="left">left</button>
+      <button id="right">right</button>
+      <button id="down">down</button>
+    </div>
+    
+    <ul id="messages"></ul>
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://code.jquery.com/jquery-1.11.1.js"></script>
+    <script>
+      $(function () {
+        var socket = io();
+        $('#takeoff').click(function() {
+          socket.emit('takeoff', '');
+          return false;
+        });
+        $('#land').click(function() {
+          socket.emit('land', '');
+          return false;
+        });
+        socket.on('takeoff', function(){
+          $('#messages').append($('<li>').text('takeoff pressed'));
+        });
+        socket.on('land', function(){
+          $('#messages').append($('<li>').text('land pressed'));
+        });
+      });
+    </script>
+  </body>
+</html>
